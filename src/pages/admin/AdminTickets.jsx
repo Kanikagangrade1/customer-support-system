@@ -16,6 +16,14 @@ export default function AdminTickets() {
     (filter === "All" || t.status === filter)
   );
 
+const acceptTicket = async (id) => {
+  try {
+    await axios.put(`/api/tickets/accept/${id}`);
+    fetchTickets(); // refresh list
+  } catch (err) {
+    console.log(err);
+  }
+};
   /*  STATUS COLOR  */
   const statusStyle = {
     Pending: "bgyellow100 textyellow700",
@@ -29,7 +37,7 @@ export default function AdminTickets() {
 
       {/* PAGE TITLE */}
       <h1 className="text2xl fontbold mb6">
-        🎫 Admin Ticket Management
+         Admin Ticket Management
       </h1>
 
       {/* SEARCH + FILTER */}
@@ -62,7 +70,7 @@ export default function AdminTickets() {
 
         {filteredTickets.length === 0 ? (
           <div className="textcenter textgray500 py10">
-            No tickets found 😔
+            No tickets found 
           </div>
         ) : (
           
@@ -75,6 +83,7 @@ export default function AdminTickets() {
               <div className="flex flexcol md:flexrow md:justifybetween gap3">
 
                 <div>
+                  <h3>Id : {ticket.id}</h3>
                   <h2 className="fontsemibold textlg">
                     {ticket.title}
                   </h2>
@@ -105,10 +114,10 @@ export default function AdminTickets() {
               </p>
 
               {/* ACTION BUTTONS */}
-              <div className="flex flexwrap gap3 mt5">
+              <div className="flex flexwrap gap3 mt5 ">
 
                 <button
-                  onClick={() => updateStatus(ticket.id, "Accepted")}
+                  onClick={() => acceptTicket(ticket.id, "Accepted")}
                   className="bgblue500 textwhite px4 py2 roundedlg hover:bgblue600"
                 >
                   Accept

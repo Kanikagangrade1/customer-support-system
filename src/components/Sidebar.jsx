@@ -5,23 +5,23 @@ function Sidebar() {
   const { user, switchRole } = useAuth();
   const location = useLocation();
 
-  // ✅ ADMIN LINKS
+  //  ADMIN LINKS
   const adminLinks = [
-    { name: "Dashboard", path: "/admin" },
+    { name: "Dashboard", path: "/admin/dashboard" },
     { name: "Tickets", path: "/admin/tickets" },
     { name: "Active Users", path: "/admin/users" },
   ];
 
-  // ✅ CUSTOMER LINKS
+  //  CUSTOMER LINKS
   const customerLinks = [
     { name: "Home", path: "/user" },
     { name: "Raise Ticket", path: "/user/raise" },
     { name: "My Tickets", path: "/user/tickets" },
   ];
 
-  // ✅ Role Based Navigation
+  //  Role Based Navigation
   const links =
-    user?.role === "admin" ? adminLinks : customerLinks;
+    user?.role === "/admin" ? adminLinks : customerLinks;
 
   return (
     <div className="h-screen w-64 bg-gradient-to-b from-indigo-600 to-blue-700 text-white flex flex-col">

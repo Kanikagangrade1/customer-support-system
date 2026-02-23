@@ -7,6 +7,8 @@ import Home from "./pages/user/Home";
 import RaiseTicket from "./pages/user/RaiseTicket";
 import MyTickets from "./pages/user/MyTickets";
 import UserTicketDetails from "./pages/user/UserTicketDetails";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
 
 // ADMIN
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -26,12 +28,15 @@ function App() {
         <Route path="user/raise" element={<RaiseTicket />} />
         <Route path="user/tickets" element={<MyTickets />} />
         <Route path="user/ticket/:id" element={<UserTicketDetails />} />
+        <Route path="register"  element = {<Register/>} />
+        <Route Path="login/user" element = {<Login/>} />
 
         {/* ADMIN ROUTES */}
-        <Route path="admin" element={<AdminDashboard />} />
+        <Route path="admin/dashboard" element={<AdminDashboard />} />
         <Route path="admin/tickets" element={<AdminTickets />} />
         <Route path="admin/ticket/:id" element={<TicketDetails />} />
         <Route path="admin/users" element={<ActiveUsers />} />
+
 <Route
   path="admin"
   element={
