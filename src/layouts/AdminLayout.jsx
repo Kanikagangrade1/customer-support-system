@@ -1,31 +1,17 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 export default function AdminLayout() {
   return (
-    <div className="flex min-h-screen bg-gray-100">
-
+    <div className="flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-blue-700 text-white p-5 hidden md:block">
-        <h2 className="text-xl font-bold mb-8">
-          Pharma Admin
-        </h2>
+      <div className="w-64 bg-indigo-600 text-white min-h-screen p-4">
+        Admin Panel
+      </div>
 
-        <nav className="space-y-4">
-          <Link to="/admin" className="block hover:text-gray-200">
-            Dashboard
-          </Link>
-
-          <Link to="/admin/tickets" className="block hover:text-gray-200">
-            Tickets
-          </Link>
-        </nav>
-      </aside>
-
-      {/* Content */}
-      <main className="flex-1 p-6">
+      {/* Page */}
+      <div className="flex-1 p-6 bg-gray-100">
         <Outlet />
-      </main>
-
+      </div>
     </div>
   );
 }

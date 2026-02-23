@@ -1,27 +1,8 @@
 import { Link } from "react-router-dom";
+import { useTickets } from "../../context/TicketContext";
 
 export default function MyTickets() {
-
-  // Dummy data (later comes from backend API)
-  const tickets = [
-    {
-      id: 101,
-      title: "Medicine batch barcode not scanning",
-      category: "Major Issue",
-      status: "In Progress",
-      priority: "High",
-      date: "20 Feb 2026",
-    },
-    {
-      id: 102,
-      title: "Invoice PDF download issue",
-      category: "Minor Issue",
-      status: "Open",
-      priority: "Medium",
-      date: "18 Feb 2026",
-    },
-  ];
-
+  const { tickets } = useTickets();
   const statusColor = (status) => {
     switch (status) {
       case "Open":
@@ -67,7 +48,8 @@ export default function MyTickets() {
               <th>Category</th>
               <th>Status</th>
               <th>Priority</th>
-              <th>Date</th>
+              <th >Date</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -106,12 +88,17 @@ export default function MyTickets() {
                   </span>
                 </td>
 
-                <td>{ticket.date}</td>
+                <td >
+                  <span>{ticket.date}</span>
+                  </td>
+                <p className="text-xs text-gray-500">
+  Raised On: {new Date(ticket.createdAt).toLocaleString()}
+  </p>
 
-                <td>
+                <td >
                   <Link
                     to={`/ticket/${ticket.id}`}
-                    className="text-blue-600 font-semibold hover:underline"
+                    className="text-blue-600 font-semibold hover:underline "
                   >
                     View
                   </Link>

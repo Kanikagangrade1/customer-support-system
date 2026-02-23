@@ -41,7 +41,7 @@ export default function DashboardLayout() {
 
           {user?.role === "user" && (
             <>
-              <button onClick={()=>nav("/user")}
+              <button onClick={()=>nav("/user/raise")}
                 className="block w-full text-left hover:bg-indigo-500 p-2 rounded">
                 Raise Ticket
               </button>

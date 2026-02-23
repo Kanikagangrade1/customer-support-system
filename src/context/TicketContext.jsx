@@ -1,52 +1,38 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const TicketContext = createContext();
 
 export const TicketProvider = ({ children }) => {
   const [tickets, setTickets] = useState([]);
 
-  // CREATE TICKET
+  // ✅ ADD TICKET FUNCTION
   const addTicket = (ticket) => {
-    setTickets([
-      ...tickets,
-      {
-        id: Date.now(),
-        status: "Pending",
-        chat: [],
-        ...ticket,
-      },
-    ]);
+    setTickets((prev) => [...prev, ticket]);
+  };
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("tickets")) || [];
+    setTickets(saved);
+  }, []);
+
+ const raiseTicket = (ticket) => {
+  const newTicket = {
+    ...ticket,
+    id: "TCK-" + Date.now(),
+    status: "Pending",
+
+    createdAt: new Date().toISOString(),
   };
 
-  // UPDATE STATUS
-  const updateStatus = (id, status) => {
-    setTickets(tickets.map(t =>
-      t.id === id ? { ...t, status } : t
-    ));
-  };
-
-  // CHAT MESSAGE
-  const sendMessage = (id, sender, message) => {
-    setTickets(tickets.map(t =>
-      t.id === id
-        ? {
-            ...t,
-            chat: [
-              ...t.chat,
-              { sender, message, time: new Date().toLocaleTimeString() },
-            ],
-          }
-        : t
-    ));
-  };
+  const updated = [...tickets, newTicket];
+  setTickets(updated);
+  localStorage.setItem("tickets", JSON.stringify(updated));
+};
 
   return (
-    <TicketContext.Provider
-      value={{ tickets, addTicket, updateStatus, sendMessage }}
-    >
+    <TicketContext.Provider value={{ tickets, raiseTicket }}>
       {children}
     </TicketContext.Provider>
   );
 };
 
-export const useTicket = () => useContext(TicketContext);
+export const useTickets = () => useContext(TicketContext);

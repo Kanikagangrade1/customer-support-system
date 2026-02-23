@@ -1,32 +1,77 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
+import ProtectedRoute from "./app/ProtectedRoute";
 
-/* USER */
+// USER
 import Home from "./pages/user/Home";
 import RaiseTicket from "./pages/user/RaiseTicket";
 import MyTickets from "./pages/user/MyTickets";
+import UserTicketDetails from "./pages/user/UserTicketDetails";
 
-/* ADMIN */
+// ADMIN
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminTickets from "./pages/admin/AdminTickets";
 import TicketDetails from "./pages/admin/TicketDetails";
 import ActiveUsers from "./pages/admin/ActiveUsers";
+import AdminLogin from "./pages/auth/AdminLogin";
 
-export default function App() {
+function App() {
+  
   return (
     <Routes>
-      <Route element={<Layout />}>
-        {/* USER */}
-        <Route path="/" element={<Home />} />
-        <Route path="/raise-ticket" element={<RaiseTicket />} />
-        <Route path="/my-tickets" element={<MyTickets />} />
+      <Route path="/" element={<Layout />}>
 
-        {/* ADMIN */}
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/tickets" element={<AdminTickets />} />
-        <Route path="/admin/ticket/:id" element={<TicketDetails />} />
-        <Route path="/admin/users" element={<ActiveUsers />} />
+        {/* USER BASE ROUTE */}
+        <Route path="user" element={<Home />} />
+        <Route path="user/raise" element={<RaiseTicket />} />
+        <Route path="user/tickets" element={<MyTickets />} />
+        <Route path="user/ticket/:id" element={<UserTicketDetails />} />
+
+        {/* ADMIN ROUTES */}
+        <Route path="admin" element={<AdminDashboard />} />
+        <Route path="admin/tickets" element={<AdminTickets />} />
+        <Route path="admin/ticket/:id" element={<TicketDetails />} />
+        <Route path="admin/users" element={<ActiveUsers />} />
+<Route
+  path="admin"
+  element={
+    <ProtectedRoute role="admin">
+      <AdminDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route path="admin-login" element ={<AdminLogin/>} />
+
+<Route
+  path="admin/tickets"
+  element={
+    <ProtectedRoute role="admin">
+      <AdminTickets />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="admin/ticket/:id"
+  element={
+    <ProtectedRoute role="admin">
+      <TicketDetails />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="admin/users"
+  element={
+    <ProtectedRoute role="admin">
+      <ActiveUsers />
+    </ProtectedRoute>
+  }
+/>
       </Route>
     </Routes>
   );
 }
+
+export default App;
