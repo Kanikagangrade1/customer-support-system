@@ -3,7 +3,7 @@ import Layout from "./layouts/Layout";
 import ProtectedRoute from "./app/ProtectedRoute";
 
 // USER
-import Home from "./pages/user/Home";
+import UserHome from "./pages/user/UserHome";
 import RaiseTicket from "./pages/user/RaiseTicket";
 import MyTickets from "./pages/user/MyTickets";
 import UserTicketDetails from "./pages/user/UserTicketDetails";
@@ -24,7 +24,7 @@ function App() {
       <Route path="/" element={<Layout />}>
 
         {/* USER BASE ROUTE */}
-        <Route path="user" element={<Home />} />
+        <Route path="user" element={<UserHome />} />
         <Route path="user/raise" element={<RaiseTicket />} />
         <Route path="user/tickets" element={<MyTickets />} />
         <Route path="user/ticket/:id" element={<UserTicketDetails />} />

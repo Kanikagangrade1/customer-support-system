@@ -1,35 +1,43 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const TicketContext = createContext();
 
 export const TicketProvider = ({ children }) => {
-  const [tickets, setTickets] = useState([]);
+  const [tickets, setTickets] = useState(() => {
+    const saved = localStorage.getItem("tickets");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  // ✅ ADD TICKET FUNCTION
-  const addTicket = (ticket) => {
-    setTickets((prev) => [...prev, ticket]);
-  };
+  // ✅ SAVE TO LOCAL STORAGE
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("tickets")) || [];
-    setTickets(saved);
-  }, []);
+    localStorage.setItem("tickets", JSON.stringify(tickets));
+  }, [tickets]);
 
- const raiseTicket = (ticket) => {
-  const newTicket = {
-    ...ticket,
-    id: "TCK-" + Date.now(),
-    status: "Pending",
+  // ✅ RAISE TICKET
+  const raiseTicket = (ticket) => {
+    const newTicket = {
+      id: Date.now(), // IMPORTANT
+      ...ticket,
+      status: "Pending",
+      createdAt: new Date().toISOString(),
+    };
 
-    createdAt: new Date().toISOString(),
+    setTickets((prev) => [...prev, newTicket]);
   };
 
-  const updated = [...tickets, newTicket];
-  setTickets(updated);
-  localStorage.setItem("tickets", JSON.stringify(updated));
-};
+  // ✅ ACCEPT / REJECT
+  const updateTicketStatus = (id, status) => {
+    setTickets((prev) =>
+      prev.map((t) =>
+        t.id === id ? { ...t, status } : t
+      )
+    );
+  };
 
   return (
-    <TicketContext.Provider value={{ tickets, raiseTicket }}>
+    <TicketContext.Provider
+      value={{ tickets, raiseTicket, updateTicketStatus }}
+    >
       {children}
     </TicketContext.Provider>
   );

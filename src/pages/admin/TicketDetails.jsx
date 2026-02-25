@@ -1,45 +1,37 @@
 import { useParams } from "react-router-dom";
 import { useTickets } from "../../context/TicketContext";
-import TicketChat from "../../components/TicketChat";
 
 export default function TicketDetails() {
-
   const { id } = useParams();
-  const { getTicket } = useTickets();
+  const { tickets } = useTickets();
 
-  const ticket = getTicket(id);
+  // ✅ convert id to number
+  const ticket = tickets.find(
+    (t) => t.id === Number(id)
+  );
 
-  if (!ticket) return <p>Ticket not found</p>;
+  if (!ticket) return <h2>Ticket not found</h2>;
 
   return (
-    <div className="p-6 space-y-6">
-
-      <h1 className="text-2xl font-bold">
+    <div className="bg-white p-6 rounded shadow">
+      <h1 className="text-2xl font-bold mb-4">
         {ticket.title}
       </h1>
 
-      <p className="text-gray-600">
-        {ticket.description}
+      <p><b>Description:</b> {ticket.description}</p>
+      <p><b>Priority:</b> {ticket.priority}</p>
+
+      <p>
+        <b>Status:</b>{" "}
+        <span className="font-semibold">
+          {ticket.status}
+        </span>
       </p>
-      
-      
-      <p className="text-sm text-gray-500">
-  Email: {ticket.email}
-</p>
-{ticket.file && (
-  <a
-    href={ticket.file}
-    target="_blank"
-    rel="noreferrer"
-    className="text-blue-600 underline"
-  >
-    View Attachment
-  </a>
-)}
 
-      {/* CHAT */}
-      <TicketChat ticket={ticket} role="admin" />
-
+      <p>
+        <b>Created:</b>{" "}
+        {new Date(ticket.createdAt).toLocaleString()}
+      </p>
     </div>
   );
 }

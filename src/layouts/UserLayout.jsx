@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
+import UserSidebar from "../components/UserSidebar";
 
-export default function UserLayout() {
+const UserLayout = () => {
   return (
     <div className="flex">
-      <div className="w-64 bg-purple-600 text-white min-h-screen p-4">
-        Customer Panel
-      </div>
+      <UserSidebar />
 
-      <div className="flex-1 p-6 bg-gray-100">
+      <div className="flex-1 p-6 bg-gray-100 min-h-screen">
         <Outlet />
       </div>
     </div>
   );
-}
+};
+
+export default UserLayout;

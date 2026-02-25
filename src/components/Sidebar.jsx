@@ -1,9 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
   const { user, switchRole } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   //  ADMIN LINKS
   const adminLinks = [
@@ -55,11 +57,11 @@ function Sidebar() {
 
         {/* Demo Role Switch */}
         <button
-          onClick={switchRole}
-          className="mt-3 w-full bg-white text-indigo-700 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200"
-        >
-          Switch Role
-        </button>
+  onClick={() => navigate("/admin")}
+  className="bg-white text-purple-600 px-4 py-2 rounded"
+>
+  Switch Role
+</button>
       </div>
     </div>
   );

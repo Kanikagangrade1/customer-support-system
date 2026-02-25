@@ -1,44 +1,63 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
-import Login from "../pages/auth/Login";
+import Login from "../pages/Login";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import RaiseTicket from "../pages/user/RaiseTicket";
+// import AdminTickets from "../pages/admin/AdminTickets";
+import AdminLayout from "../layouts/AdminLayout";
+import ManageTickets from "../pages/admin/ManageTickets";
+import TicketDetails from "../pages/admin/TicketDetails";
 
-import DashboardLayout from "../layouts/DashboardLayout";
+
+import UserHome from "../pages/user/UserHome";
+import RaiseTicket from "../pages/user/RaiseTicket";
+import MyTickets from "../pages/user/MyTickets";
+
+import Layout from "../layouts/Layout";
 import ProtectedRoute from "./ProtectedRoute";
 
-export default function Router() {
-  return (
-    <BrowserRouter>
-      <Routes>
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <UserHome />,
+  },
+  {
+    path: "/login",
+    element: <Login/>,
+  },
 
-        <Route path="/" element={<Login />} />
+  //  ADMIN
+  {
+  path: "/admin",
+  element: <AdminLayout />,
+  children: [
+    {
+      path: "dashboard",
+      element: <AdminDashboard />,
+    },
+    {
+      path: "tickets",
+      element: <ManageTickets />,
+    },
+    {
+      path: "tickets/:id",
+      element: <TicketDetails />,
+    },
+  ],
+},
 
-        {/* ADMIN */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute role="admin">
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-        </Route>
-
-        {/* USER */}
-        <Route
-          path="/user"
-          element={
-            <ProtectedRoute role="user">
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<RaiseTicket />} />
-        </Route>
-
-      </Routes>
-    </BrowserRouter>
-  );
-}
+  // USER
+  {
+    element: <ProtectedRoute role="user" />,
+    children: [
+      {
+        path: "/user",
+        element: <Layout />,
+        children: [
+          { index: true, element: <UserHome /> },
+          { path: "raise", element: <RaiseTicket /> },
+          { path: "tickets", element: <MyTickets /> },
+        ],
+      },
+    ],
+  },
+]);
