@@ -1,20 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTickets } from "../../context/TicketContext";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function RaiseTicket() {
   const { raiseTicket, tickets } = useTickets();
+  const { user } = useAuth(); // get logged-in user
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     title: "",
-    email:"",
     description: "",
     category: "General",
   });
 
   const [file, setFile] = useState(null);
 
+  // redirect if not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
+
   // generate unique ticket id
-  const generateTicketId = (tickets) => {
+  const generateTicketId = () => {
     return "TCK-" + (tickets.length + 1).toString().padStart(4, "0");
   };
 
@@ -26,7 +36,7 @@ export default function RaiseTicket() {
     });
   };
 
-  // file upload
+  // handle file
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -36,48 +46,38 @@ export default function RaiseTicket() {
     e.preventDefault();
 
     const newTicket = {
-      id: generateTicketId(tickets),
+      id: generateTicketId(),
+      user: user.email, // automatically link ticket to logged-in user
       title: form.title,
       description: form.description,
       category: form.category,
-      // priority: form.priority,
       status: "Pending",
       attachment: file ? file.name : null,
       createdAt: new Date().toISOString(),
     };
 
     raiseTicket(newTicket);
+    alert("Ticket Raised Successfully");
 
-    alert("Ticket Raised Successfully ");
-
-    // reset form
     setForm({
       title: "",
       description: "",
       category: "General",
-      
     });
-
     setFile(null);
   };
 
   return (
     <div className="p-6 max-w-2xl mx-auto bg-white rounded-xl shadow">
-      <h2 className="text-xl font-semibold mb-4">
-        Raise Support Ticket
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">Raise Support Ticket</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-
-        {/* Email */}
+        {/* User Email (readonly, logged-in) */}
         <input
           type="email"
-          name="email"
-          placeholder="Email ID"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full border p-3 rounded"
-          required
+          value={user?.email || ""}
+          readOnly
+          className="w-full border p-3 rounded bg-gray-100"
         />
 
         {/* Title */}
@@ -98,7 +98,7 @@ export default function RaiseTicket() {
           value={form.description}
           onChange={handleChange}
           className="w-full border p-3 rounded"
-          rows="2"
+          rows="3"
           required
         />
 
@@ -117,8 +117,6 @@ export default function RaiseTicket() {
           </select>
         </div>
 
-        
-
         {/* File Upload */}
         <div>
           <label className="block font-medium mb-1">Attachment</label>
@@ -127,11 +125,8 @@ export default function RaiseTicket() {
             onChange={handleFileChange}
             className="w-full border p-2 rounded"
           />
-
           {file && (
-            <p className="text-sm text-green-600 mt-1">
-              Selected: {file.name}
-            </p>
+            <p className="text-sm text-green-600 mt-1">Selected: {file.name}</p>
           )}
         </div>
 
@@ -141,7 +136,6 @@ export default function RaiseTicket() {
         >
           Submit Ticket
         </button>
-
       </form>
     </div>
   );

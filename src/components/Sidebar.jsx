@@ -1,41 +1,48 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
-  const { user, switchRole } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
-  //  ADMIN LINKS
+  // ADMIN LINKS
   const adminLinks = [
     { name: "Dashboard", path: "/admin/dashboard" },
     { name: "Tickets", path: "/admin/tickets" },
     { name: "Active Users", path: "/admin/users" },
   ];
 
-  //  CUSTOMER LINKS
+  // USER LINKS
   const customerLinks = [
     { name: "Home", path: "/user" },
     { name: "Raise Ticket", path: "/user/raise" },
     { name: "My Tickets", path: "/user/tickets" },
   ];
 
-  //  Role Based Navigation
-  const links =
-    user?.role === "/admin" ? adminLinks : customerLinks;
+  // FIXED ROLE CHECK
+  const links = user?.role === "admin"
+    ? adminLinks
+    : customerLinks;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="h-screen w-64 bg-gradient-to-b from-indigo-600 to-blue-700 text-white flex flex-col">
 
       {/* Logo */}
       <div className="p-5 text-2xl font-bold border-b border-white/20">
-        {user?.role === "admin" ? "Support Admin" : "Customer Panel"}
+        {user?.role === "admin"
+          ? "Support Admin"
+          : "Customer Panel"}
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
-        {links.map(link => (
+        {links.map((link) => (
           <Link
             key={link.path}
             to={link.path}
@@ -52,16 +59,16 @@ function Sidebar() {
 
       {/* User Info */}
       <div className="p-4 border-t border-white/20">
-        <p className="text-sm"></p>
-        <p className="font-semibold capitalize">{user?.role}</p>
+        <p className="font-semibold capitalize">
+          {user?.role}
+        </p>
 
-        {/* Demo Role Switch */}
         <button
-  onClick={() => navigate("/login")}
-  className="bg-white text-purple-600 px-4 py-2 rounded"
->
-  Log Out
-</button>
+          onClick={handleLogout}
+          className="mt-3 w-full bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

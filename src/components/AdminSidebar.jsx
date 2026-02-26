@@ -42,7 +42,7 @@ export default function AdminSidebar() {
         </NavLink>
 
         <NavLink
-          to="/admin-login"
+          to="/admin"
           className={linkStyle}
         >
           Logout
