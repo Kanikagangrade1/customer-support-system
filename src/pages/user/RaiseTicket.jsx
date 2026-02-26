@@ -6,9 +6,9 @@ export default function RaiseTicket() {
 
   const [form, setForm] = useState({
     title: "",
+    email:"",
     description: "",
     category: "General",
-    priority: "Medium",
   });
 
   const [file, setFile] = useState(null);
@@ -40,7 +40,7 @@ export default function RaiseTicket() {
       title: form.title,
       description: form.description,
       category: form.category,
-      priority: form.priority,
+      // priority: form.priority,
       status: "Pending",
       attachment: file ? file.name : null,
       createdAt: new Date().toISOString(),
@@ -48,14 +48,14 @@ export default function RaiseTicket() {
 
     raiseTicket(newTicket);
 
-    alert("Ticket Raised Successfully ✅");
+    alert("Ticket Raised Successfully ");
 
     // reset form
     setForm({
       title: "",
       description: "",
       category: "General",
-      priority: "Medium",
+      
     });
 
     setFile(null);
@@ -68,6 +68,17 @@ export default function RaiseTicket() {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+
+        {/* Email */}
+        <input
+          type="email"
+          name="email"
+          placeholder="Email ID"
+          value={form.email}
+          onChange={handleChange}
+          className="w-full border p-3 rounded"
+          required
+        />
 
         {/* Title */}
         <input
@@ -106,20 +117,7 @@ export default function RaiseTicket() {
           </select>
         </div>
 
-        {/* Priority */}
-        <div>
-          <label className="block font-medium mb-1">Priority</label>
-          <select
-            name="priority"
-            value={form.priority}
-            onChange={handleChange}
-            className="w-full border p-3 rounded"
-          >
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-          </select>
-        </div>
+        
 
         {/* File Upload */}
         <div>

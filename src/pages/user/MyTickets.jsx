@@ -16,18 +16,18 @@ export default function MyTickets() {
     }
   };
 
-  const priorityColor = (priority) => {
-    switch (priority) {
-      case "High":
-        return "bg-red-100 text-red-700";
-      case "Medium":
-        return "bg-orange-100 text-orange-700";
-      case "Low":
-        return "bg-green-100 text-green-700";
-      default:
-        return "bg-gray-100";
-    }
-  };
+  // const priorityColor = (priority) => {
+  //   switch (priority) {
+  //     case "High":
+  //       return "bg-red-100 text-red-700";
+  //     case "Medium":
+  //       return "bg-orange-100 text-orange-700";
+  //     case "Low":
+  //       return "bg-green-100 text-green-700";
+  //     default:
+  //       return "bg-gray-100";
+  //   }
+  // };
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -39,75 +39,73 @@ export default function MyTickets() {
 
       {/* Table */}
       <div className="bg-white shadow-lg rounded-xl overflow-hidden">
+<table className="w-full border-collapse">
+  <thead className="bg-gray-200 text-black">
+    <tr className="text-sm text-center">
+      <th className="p-4">Ticket ID</th>
+      <th>Issue</th>
+      <th>Category</th>
+      <th>Status</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
 
-        <table className="w-full text-left">
-          <thead className="bg-gray-100">
-            <tr className="text-sm text-gray-600">
-              <th className="p-4">Ticket ID</th>
-              <th>Issue</th>
-              <th>Category</th>
-              <th>Status</th>
-              <th>Priority</th>
-              <th >Date</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
+  <tbody>
+    {tickets.map((ticket) => (
+      <tr
+        key={ticket.id}
+        className="border-t text-center hover:bg-gray-50 transition"
+      >
+        {/* Ticket ID */}
+        <td className="p-3 font-semibold">
+          #{ticket.id}
+        </td>
 
-          <tbody>
-            {tickets.map((ticket) => (
-              <tr
-                key={ticket.id}
-                className="border-t hover:bg-gray-50 transition"
-              >
-                <td className="p-4 font-semibold">
-                  #{ticket.id}
-                </td>
+        {/* Issue */}
+        <td className="p-3 font-medium">
+          {ticket.title}
+        </td>
 
-                <td>{ticket.title}</td>
+        {/* Category */}
+        <td className="p-3">
+          {ticket.category}
+        </td>
 
-                <td>{ticket.category}</td>
+        {/* Status */}
+        <td className="p-3">
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor(
+              ticket.status
+            )}`}
+          >
+            {ticket.status}
+          </span>
+        </td>
 
-                <td>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor(
-                      ticket.status
-                    )}`}
-                  >
-                    {ticket.status}
-                  </span>
-                </td>
+        {/* Date */}
+        <td className="p-3">
+          <div className="flex flex-col items-center text-sm">
+            <span>{ticket.date}</span>
+            <span className="text-xs text-gray-800">
+              Raised: {new Date(ticket.createdAt).toLocaleString()}
+            </span>
+          </div>
+        </td>
 
-                <td>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${priorityColor(
-                      ticket.priority
-                    )}`}
-                  >
-                    {ticket.priority}
-                  </span>
-                </td>
-
-                <td >
-                  <span>{ticket.date}</span>
-                  </td>
-                <p className="text-xs text-gray-500">
-  Raised On: {new Date(ticket.createdAt).toLocaleString()}
-  </p>
-
-                <td >
-                  <Link
-                    to={`/ticket/${ticket.id}`}
-                    className="text-blue-600 font-semibold hover:underline "
-                  >
-                    View
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
+        {/* Action */}
+        <td className="p-3">
+          <Link
+            to={`/ticket/${ticket.id}`}
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            View
+          </Link>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       </div>
     </div>
   );

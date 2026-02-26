@@ -3,17 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function AdminLogin() {
-  const { loginAdmin } = useAuth();
+  const auth = useAuth();
+  
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const success = loginAdmin(email, password);
-
+    
     if (success) {
       navigate("/admin/tickets");
     } else {

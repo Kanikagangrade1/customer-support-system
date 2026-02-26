@@ -14,7 +14,7 @@ export default function AdminSidebar() {
       <nav className="space-y-2">
 
         <NavLink
-          to="/admin"
+          to="/admin/dashboard"
           end
           className={({ isActive }) =>
             `${linkStyle} ${isActive ? "bg-indigo-600" : ""}`
@@ -31,9 +31,18 @@ export default function AdminSidebar() {
         >
           Manage Tickets
         </NavLink>
+        
+        <NavLink
+          to="/admin/userInfo"
+          className={({ isActive }) =>
+            `${linkStyle} ${isActive ? "bg-indigo-600" : ""}`
+          }
+        >
+          User Information
+        </NavLink>
 
         <NavLink
-          to="/login"
+          to="/admin-login"
           className={linkStyle}
         >
           Logout

@@ -33,7 +33,7 @@ function UserTicketDetails() {
 
       <div className="bg-white shadow rounded p-4">
         <p><b>Status:</b> {ticket.status}</p>
-        <p><b>Priority:</b> {ticket.priority}</p>
+        {/* <p><b>Priority:</b> {ticket.priority}</p> */}
       </div>
 
       {/* CHAT AREA */}

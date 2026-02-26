@@ -46,18 +46,18 @@ export const router = createBrowserRouter([
 },
 
   // USER
-  {
-    element: <ProtectedRoute role="user" />,
-    children: [
-      {
-        path: "/user",
-        element: <Layout />,
-        children: [
-          { index: true, element: <UserHome /> },
-          { path: "raise", element: <RaiseTicket /> },
-          { path: "tickets", element: <MyTickets /> },
-        ],
-      },
-    ],
-  },
+  // {
+  //   element: <ProtectedRoute role="user" />,
+  //   children: [
+  //     {
+  //       path: "/user",
+  //       element: <Layout />,
+  //       children: [
+  //         { index: true, element: <UserHome /> },
+  //         { path: "raise", element: <RaiseTicket /> },
+  //         { path: "tickets", element: <MyTickets /> },
+  //       ],
+  //     },
+  //   ],
+  // },
 ]);

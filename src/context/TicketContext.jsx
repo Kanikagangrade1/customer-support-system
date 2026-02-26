@@ -8,15 +8,15 @@ export const TicketProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // ✅ SAVE TO LOCAL STORAGE
+  //  SAVE TO LOCAL STORAGE
   useEffect(() => {
     localStorage.setItem("tickets", JSON.stringify(tickets));
   }, [tickets]);
 
-  // ✅ RAISE TICKET
+  //  RAISE TICKET
   const raiseTicket = (ticket) => {
     const newTicket = {
-      id: Date.now(), // IMPORTANT
+      id: Date.now(),
       ...ticket,
       status: "Pending",
       createdAt: new Date().toISOString(),
@@ -25,7 +25,8 @@ export const TicketProvider = ({ children }) => {
     setTickets((prev) => [...prev, newTicket]);
   };
 
-  // ✅ ACCEPT / REJECT
+  //  ACCEPT / REJECT
+
   const updateTicketStatus = (id, status) => {
     setTickets((prev) =>
       prev.map((t) =>

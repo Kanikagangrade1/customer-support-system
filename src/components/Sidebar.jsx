@@ -52,15 +52,15 @@ function Sidebar() {
 
       {/* User Info */}
       <div className="p-4 border-t border-white/20">
-        <p className="text-sm">Logged as:</p>
+        <p className="text-sm"></p>
         <p className="font-semibold capitalize">{user?.role}</p>
 
         {/* Demo Role Switch */}
         <button
-  onClick={() => navigate("/admin")}
+  onClick={() => navigate("/login")}
   className="bg-white text-purple-600 px-4 py-2 rounded"
 >
-  Switch Role
+  Log Out
 </button>
       </div>
     </div>

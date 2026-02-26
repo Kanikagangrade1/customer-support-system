@@ -9,3 +9,4 @@ export function generateTicketId(existingTickets = []) {
 
   return `TCK-${year}-${padded}`;
 }
+// console.log(generateTicketId([]));

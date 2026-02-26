@@ -1,27 +1,25 @@
 import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // LOGIN FUNCTION
-  const login = (role) => {
-    const loggedUser = {
-      name: role === "admin" ? "Admin" : "Customer",
-      role: role,
-    };
-
-    setUser(loggedUser);
-  };
-
-  const logout = () => setUser(null);
+  const loginAdmin = (email,password) => {
+    if(email === "admin@gmail.com" && password === "1234"){
+      setUser ({role: "admin",email});
+      return true;
+    }
+    return false;
+  }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser,loginAdmin }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
