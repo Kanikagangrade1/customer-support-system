@@ -2,15 +2,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function ProtectedRoute({ role }) {
-  const { user } = useAuth();
+  const { user, admin } = useAuth();
 
-  // not logged in
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  // check login based on role
+  if (role === "admin" && !admin) {
+    return <Navigate to="/admin" replace />;
   }
 
-  // role mismatch
-  if (role && user.role !== role) {
+  if (role === "user" && !user) {
     return <Navigate to="/login" replace />;
   }
 

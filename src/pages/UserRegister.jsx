@@ -10,15 +10,20 @@ export default function UserRegister() {
 
   // redirect if already logged in
   useEffect(() => {
-    if (user) navigate("/user/raise");
-  }, [user]);
+  if (user) navigate("/user/raise");
+}, [user, navigate]);
+
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerUser(form);
-    navigate("/login"); // redirect after registration
+  const success = registerUser(form);
+  if (success) {
+  navigate("/login");
+} else {
+  alert("User already exists");
+}
   };
 
   return (

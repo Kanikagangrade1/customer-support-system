@@ -3,31 +3,34 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function UserLogin() {
-  const { login, user } = useAuth();
+  const { loginUser, user } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ email: "", password: "" });
 
   // redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/user/raise"); 
-    }
-  }, [user]);
+useEffect(() => {
+  if (user?.role === "user") {
+    navigate("/user/raise", { replace: true });
+  }
+}, [user]);
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const success = loginUser(form);
-    if (success) {
-      navigate("/user/raise");
-    } else {
-      alert("Invalid credentials");
-    }
-  };
+ const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const success = loginUser(form);
+
+  if (success) {
+    navigate("/user/raise", { replace: true });
+  } else {
+    alert("Invalid credentials");
+  }
+};
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
